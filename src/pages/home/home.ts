@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
+//import { DetailPage } from '../detail/detail';
 
+
+
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -20,6 +24,10 @@ export class HomePage {
   }
 
   itemSelected(item){
-    alert (item.text);
+  // for lazy load we use strings, otherwise the calss
+  this.navCtrl.push('DetailPage', {
+      'item': item,
+      'id': item.id
+    });
   }
 }
