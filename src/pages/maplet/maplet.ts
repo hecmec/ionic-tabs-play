@@ -35,6 +35,17 @@ export class MapletPage {
     console.log('ionViewDidLoad MapletPage');
     this.loadmap();
   }
+  ionViewWillEnter() {
+    console.debug('ionViewWillEnter');
+    
+  }
+  ionViewDidLeave() {
+    console.debug('ionViewDidLeave');
+  }
+
+  ionViewWillUnload() {
+    console.debug('ionViewWillUnload');
+  }
 
   loadmap() {
     // this.map = leaflet.map("map").fitWorld();
@@ -104,10 +115,16 @@ export class MapletPage {
     }
   }
 
-  // swipeEvent(evt:PointerEvent){
-  //   console.log(evt);
+  swipeEvent(evt:PointerEvent) {
+    console.log('swipe', evt);
+    //evt.stopPropagation();
+    //evt.preventDefault();
+  }
+  // panEvent(evt: PointerEvent) {
+  //   console.log('pan', evt);
   //   //evt.stopPropagation();
-  //   evt.preventDefault();
+  //   //evt.preventDefault();
   // }
 
+  
 }

@@ -1,6 +1,6 @@
 
 import { Component, ViewChild, trigger, transition, style, state, animate, keyframes } from '@angular/core';
-import { IonicPage, NavController, NavParams, NavOptions, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 
 //import { TabsPage } from '../tabs/tabs';
 /**
