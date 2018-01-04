@@ -5,12 +5,14 @@ import L from 'leaflet';
 /**
  * http://leafletjs.com/
  * 
+ * 
  * http://tphangout.com/ionic-3-leaflet-maps-geolocation-markers/
  * 
  * http://edupala.com/how-to-add-leaflet-map-in-ionic-3/
  * 
  * geojson on tiles
  * https://github.com/glenrobertson/leaflet-tilelayer-geojson
+ * 
  * 
  */
 
@@ -22,6 +24,8 @@ import L from 'leaflet';
 export class MapletPage {
 
   @ViewChild(Slides) slides: Slides;
+  // you can lock Swipes on the slides using this.slides.lockSwipes(shouldLockSwipes)
+
   // @ViewChild('map') mapContainer: ElementRef;
 
   center: L.PointTuple;
@@ -30,9 +34,13 @@ export class MapletPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  /**
+   * after the ion view loaded, we load the mpap
+   */
   ionViewDidLoad() {
     this.center = [47.2184, -1.5536];
     console.log('ionViewDidLoad MapletPage');
+
     this.loadmap();
   }
   ionViewWillEnter() {
@@ -46,6 +54,7 @@ export class MapletPage {
   ionViewWillUnload() {
     console.debug('ionViewWillUnload');
   }
+
 
   loadmap() {
     // this.map = leaflet.map("map").fitWorld();
@@ -63,7 +72,8 @@ export class MapletPage {
     var tileUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 
     var baseLayer = new L.TileLayer(tileUrl, {
-      attribution: 'edupala.com © ionic LeafLet'
+      attribution: 'edupala.com © ionic LeafLet',
+      maxZoom: 18
       // filter: function () {
       //   new L.CSSFilter(this, {
       //     filters: ['saturate(80%)']
@@ -72,6 +82,20 @@ export class MapletPage {
     });
     baseLayer.addTo(this.map);
 
+    // try to locate and zoom add a marker
+    this.map.locate({
+      setView: true,
+      maxZoom: 15
+    }).on('locationfound', (e) => {
+      let markerGroup = L.featureGroup();
+      let marker: any = L.marker([e.latitude, e.longitude]).on('click', () => {
+        alert('Marker clicked');
+      })
+      markerGroup.addLayer(marker);
+      this.map.addLayer(markerGroup);
+      }).on('locationerror', (err) => {
+        alert(err.message);
+    });
     // var marker = new L.Marker(this.center);
     // this.map.addLayer(marker);
 
@@ -94,8 +118,8 @@ export class MapletPage {
   /**
    * When the slide really has changed
    */
-  slideChanged() {
-    console.log('slideChanged MapletPage');
+  slideChanged(slidesObj) {
+    console.log('MapletPage slideChanged ', slidesObj);
     if (this.slides.isEnd()){
       
     }
@@ -104,15 +128,33 @@ export class MapletPage {
 
   /**
    * As soon as a slide is dragged
+   * this comes from ionSlideDrag: <ion-slides pager (ionSlideDidChange)="slideChanged()" (ionSlideDrag)="slideMoved()">
    */
-  slideMoved() {
-    console.log('slideMoved MapletPage');
+  slideDragged(slidesObj) {
+    console.log('MapletPage slideMoved ', slidesObj);
+
+    //
+    console.debug("evt._touches.startY", slidesObj._touches.startY);
+
+    //http://idangero.us/swiper/api/#events
+
+    if (slidesObj._touches && slidesObj._touches.startY < 400) {
+      // if (slidesObj.originalEvent.stopPropagation) slidesObj.originalEvent.stopPropagation();
+    } 
+    else {
+
+    }
+
     if (this.slides.getActiveIndex() >= this.slides.getPreviousIndex()) {
       // this.state = 'rightSwipe';
     }
     else {
       // this.state = 'leftSwipe';
     }
+  }
+
+  slideAutoplay(slidesObj) {
+    console.log('MapletPage slideAutoplay', slidesObj);
   }
 
   swipeEvent(evt:PointerEvent) {

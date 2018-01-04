@@ -18,10 +18,16 @@
       hello map
   </div>
 
-</ion-content> -->
+</ion-content> 
+
+
+-->
 
 <ion-content>
-  <ion-slides pager (ionSlideDidChange)="slideChanged()" (ionSlideDrag)="slideMoved()">
+  <ion-slides pager 
+    (ionSlideDidChange)="slideChanged($event)" 
+(ionSlideDrag)="slideDragged($event)"     (ionSlideAutoplay)="slideAutoplay($event)"
+    >
     <ion-slide>
        <!-- (pan)="panEvent($event)" -->
       <div class="map-container"  (swipe)="swipeEvent($event)" >

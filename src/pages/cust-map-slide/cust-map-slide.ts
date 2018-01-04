@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the CustMapSlidePage page.
+ * 
+ * custom navigation with standard swipe on container
+ * 
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -22,6 +25,11 @@ export class CustMapSlidePage {
     console.log('ionViewDidLoad CustMapSlidePage');
   }
 
+  /**
+   * standard swipe event on a container
+   * (swipe)="swipeEvent($event)" 
+   * @param evt 
+   */
   swipeEvent(evt:any) {
     console.log(evt);
     //evt.stopPropagation();
